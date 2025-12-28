@@ -24,6 +24,7 @@ const getTodosHandler = async (ctx: any) => {
 
 // Get Todo
 const getTodoHandler = async (ctx: any) => {
+  // validate params
   const paramsResult = todoIdParamSchema.safeParse(ctx.params);
   if (!paramsResult.success) {
     ctx.status = 400;
@@ -40,6 +41,7 @@ const getTodoHandler = async (ctx: any) => {
 
 // Create Todo
 const createTodoHandler = async (ctx: any) => {
+  // validate Body values
   const bodyResult = createTodoBodySchema.safeParse(ctx.request.body);
   if (!bodyResult.success) {
     ctx.status = 400;
@@ -53,12 +55,14 @@ const createTodoHandler = async (ctx: any) => {
 
 // Update Todo
 const updateTodoHandler = async (ctx: any) => {
+  // validate params
   const paramsResult = todoIdParamSchema.safeParse(ctx.params);
   if (!paramsResult.success) {
     ctx.status = 400;
     ctx.body = formatZodError(paramsResult.error);
     return;
   }
+  // validate Body values
   const bodyResult = updateTodoBodySchema.safeParse(ctx.request.body);
   if (!bodyResult.success) {
     ctx.status = 400;
@@ -73,6 +77,7 @@ const updateTodoHandler = async (ctx: any) => {
 
 // Remove Todo
 const removeTodoHandler = async (ctx: any) => {
+  // validate params
   const paramsResult = todoIdParamSchema.safeParse(ctx.params);
   if (!paramsResult.success) {
     ctx.status = 400;

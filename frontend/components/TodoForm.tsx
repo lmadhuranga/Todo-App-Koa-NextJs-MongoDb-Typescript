@@ -3,47 +3,48 @@
 import { notify } from "@/lib/toast";
 import { createTodo } from "@/lib/actions";
 import { useState } from "react";
+import type React from "react";
+import AddButton from "@/components/AddButton";
 
 export default function TodoForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
-  return (
-    <form
-      className="flex gap-2 mb-4"
-      onSubmit={async (event) => {
-        event.preventDefault();
-        const trimmedTitle = title.trim();
 
-        if (!trimmedTitle) {
-          notify.error("Title is required");
-          return;
-        }
-        setIsLoading(true);
-        notify.loading("Adding todo...");
-        try {
-          await createTodo(trimmedTitle);
-          setTitle("");
-          notify.success("Todo added");
-        } catch {
-          notify.error("Failed to add todo");
-        } finally {
-          setIsLoading(false);
-        }
-      }}
-    >
+  const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Validate form data
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) {
+      notify.error("Title is required");
+      return;
+    }
+
+    setIsLoading(true);
+    notify.loading("Adding todo...");
+    try {
+      await createTodo(trimmedTitle);
+      setTitle("");
+      notify.success("Todo added");
+    } catch {
+      notify.error("Failed to add todo");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form className="flex gap-2 mb-4" onSubmit={formSubmitHandler}>
       <input
         name="title"
         placeholder="Add a new task"
         className="flex-1 border rounded-md px-3 py-2"
         value={title}
-        onChange={(event) => setTitle(event.target.value)}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setTitle(event.target.value)
+        }
       />
-      <button
-        disabled={isLoading}
-        className={`text-white px-4 py-2 rounded-md ${isLoading ? "bg-blue-200" : "bg-blue-600"} disabled:cursor-not-allowed`}
-      >
-        Add 
-      </button>
+      <AddButton isLoading={isLoading} />
     </form>
   );
 }

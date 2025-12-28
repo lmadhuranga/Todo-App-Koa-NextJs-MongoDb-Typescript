@@ -1,33 +1,49 @@
 "use client";
 
-import toast from "react-hot-toast";
+import { notify } from "@/lib/toast";
 import { createTodo } from "@/lib/actions";
+import { useState } from "react";
 
 export default function TodoForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState("");
   return (
     <form
-      action={async (formData) => {
-        const title = formData.get("title") as string;
+      className="flex gap-2 mb-4"
+      onSubmit={async (event) => {
+        event.preventDefault();
+        const trimmedTitle = title.trim();
 
-        if (!title) {
-          toast.error("Title is required");
+        if (!trimmedTitle) {
+          notify.error("Title is required");
           return;
         }
-
-        toast.loading("Adding todo...");
-
+        setIsLoading(true);
+        notify.loading("Adding todo...");
         try {
-          await createTodo(title);
-          toast.dismiss();
-          toast.success("Todo added");
+          await createTodo(trimmedTitle);
+          setTitle("");
+          notify.success("Todo added");
         } catch {
-          toast.dismiss();
-          toast.error("Failed to add todo");
+          notify.error("Failed to add todo");
+        } finally {
+          setIsLoading(false);
         }
       }}
     >
-      <input name="title" placeholder="New todo" />
-      <button type="submit">Add</button>
+      <input
+        name="title"
+        placeholder="Add a new task"
+        className="flex-1 border rounded-md px-3 py-2"
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
+      />
+      <button
+        disabled={isLoading}
+        className={`text-white px-4 py-2 rounded-md ${isLoading ? "bg-blue-200" : "bg-blue-600"} disabled:cursor-not-allowed`}
+      >
+        Add 
+      </button>
     </form>
   );
 }

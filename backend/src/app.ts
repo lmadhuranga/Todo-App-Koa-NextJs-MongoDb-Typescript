@@ -13,7 +13,7 @@ app.use(errorMiddleware);
 // add body parse
 app.use(bodyParser());
 
-app.use(delayMiddleware(2000));
+app.use(delayMiddleware(5000));
 
 // Add router 
 app.use(todoRouter.routes());

@@ -29,6 +29,7 @@ const createTodoHandler = async (ctx: any) => {
   if (!title) {
     ctx.throw(400, "Todo id is required");
   }
+  ctx.status = 201;
   ctx.body = await todoService.createTodo({ title });
 }
 
@@ -40,7 +41,6 @@ const updateTodoHandler = async (ctx: any) => {
     ctx.throw(400, "Todo id is required");
   }
   const res = await todoService.updateTodo(id, { title, completed });
-  console.log(`updateTodoHandler res`,res);
   ctx.body = res;
 }
 

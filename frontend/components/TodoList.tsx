@@ -1,18 +1,13 @@
 "use client";
 
-import { useShallow } from "zustand/shallow";
 import TodoItem from "./TodoItem";
-import { useTodoStore } from "@/lib/stores/todoStore";
+import { useTodoStore } from "@/lib/state/store";
 
 export default function TodoList() {
-  const { todos, isFetching, error, fetchTodos } = useTodoStore(
-    useShallow((state) => ({
-      todos: state.todos,
-      isFetching: state.isFetching,
-      error: state.error,
-      fetchTodos: state.fetchTodos
-    }))
-  );
+  const todos = useTodoStore((state) => state.todos);
+  const isFetching = useTodoStore((state) => state.isFetching);
+  const error = useTodoStore((state) => state.error);
+  const fetchTodos = useTodoStore((state) => state.fetchTodos);
 
   if (error && todos.length === 0) {
     return (

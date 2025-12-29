@@ -1,21 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useShallow } from "zustand/shallow";
 import { Todo } from "@/types/todo";
 import { notify } from "@/lib/toast";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import CloseButton from "./CloseButton";
-import { useTodoStore } from "@/lib/stores/todoStore";
+import { useTodoStore } from "@/lib/state/store";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
-  const { toggleTodo, deleteTodo, isMutating } = useTodoStore(
-    useShallow((state) => ({
-      toggleTodo: state.toggleTodo,
-      deleteTodo: state.deleteTodo,
-      isMutating: state.isMutating
-    }))
-  );
+  const toggleTodo = useTodoStore((state) => state.toggleTodo);
+  const deleteTodo = useTodoStore((state) => state.deleteTodo);
+  const isMutating = useTodoStore((state) => state.isMutating);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
 

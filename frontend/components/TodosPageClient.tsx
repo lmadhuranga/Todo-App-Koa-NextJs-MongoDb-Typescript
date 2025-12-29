@@ -1,20 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import { useShallow } from "zustand/shallow";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import { Todo } from "@/types/todo";
-import { useTodoStore } from "@/lib/stores/todoStore";
+import { useTodoStore } from "@/lib/state/store";
 
 export default function TodosPageClient({ initialTodos }: { initialTodos: Todo[] }) {
-  const { hydrate, hasHydrated, fetchTodos } = useTodoStore(
-    useShallow((state) => ({
-      hydrate: state.hydrate,
-      hasHydrated: state.hasHydrated,
-      fetchTodos: state.fetchTodos
-    }))
-  );
+  const hydrate = useTodoStore((state) => state.hydrate);
+  const hasHydrated = useTodoStore((state) => state.hasHydrated);
+  const fetchTodos = useTodoStore((state) => state.fetchTodos);
 
   useEffect(() => {
     if (hasHydrated) {

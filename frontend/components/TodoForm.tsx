@@ -1,10 +1,10 @@
 "use client";
 
 import { notify } from "@/lib/toast";
-import { useTodoStore } from "@/lib/stores/todoStore";
 import { useState } from "react";
 import type React from "react";
 import AddButton from "@/components/AddButton";
+import { useTodoStore } from "@/lib/state/store";
 
 export default function TodoForm() {
   const addTodo = useTodoStore((state) => state.addTodo);

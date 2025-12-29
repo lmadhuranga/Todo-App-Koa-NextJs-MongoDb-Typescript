@@ -1,14 +1,13 @@
-"use client";
-
 import { create } from "zustand";
-import { Todo } from "@/types/todo";
 import {
   createTodo as createTodoRequest,
   deleteTodo as deleteTodoRequest,
   fetchTodos as fetchTodosRequest,
   updateTodo as updateTodoRequest
 } from "@/lib/services/todos";
+import { Todo } from "@/types/todo";
 
+// Store shape: state fields + async actions in one place.
 type TodoStore = {
   todos: Todo[];
   isFetching: boolean;
@@ -22,14 +21,23 @@ type TodoStore = {
   deleteTodo: (id: string) => Promise<void>;
 };
 
-export const useTodoStore = create<TodoStore>((set) => ({
+// Default values used to reset or bootstrap the store.
+const initialState = {
   todos: [],
   isFetching: false,
   isMutating: false,
   error: null,
-  hasHydrated: false,
+  hasHydrated: false
+};
+
+// Zustand store: actions call set(...) directly (no reducers).
+export const useTodoStore = create<TodoStore>((set) => ({
+  ...initialState,
+
+  // Hydrate store from SSR/initial data and mark as ready.
   hydrate: (todos) => set({ todos, hasHydrated: true, error: null }),
 
+  // Load todos from the API.
   async fetchTodos() {
     set({ isFetching: true, error: null });
     try {
@@ -44,6 +52,7 @@ export const useTodoStore = create<TodoStore>((set) => ({
     }
   },
 
+  // Create a new todo and prepend it in the list.
   async addTodo(title) {
     set({ isMutating: true, error: null });
     try {
@@ -60,11 +69,11 @@ export const useTodoStore = create<TodoStore>((set) => ({
     }
   },
 
+  // Toggle completion status for a todo.
   async toggleTodo(id, completed) {
     set({ isMutating: true, error: null });
     try {
       const updated = await updateTodoRequest(id, { completed });
-
       set((state) => ({
         todos: state.todos.map((todo) => (todo.id === id ? updated : todo))
       }));
@@ -77,6 +86,7 @@ export const useTodoStore = create<TodoStore>((set) => ({
     }
   },
 
+  // Remove a todo from the API and local list.
   async deleteTodo(id) {
     set({ isMutating: true, error: null });
     try {

@@ -18,6 +18,7 @@ Monorepo with a Koa + MongoDB backend and a Next.js frontend.
 
 4) Run:
 - `npm run dev`
+- Backend runs on `http://localhost:4000` by default
 
 ### Frontend
 
@@ -30,6 +31,7 @@ Monorepo with a Koa + MongoDB backend and a Next.js frontend.
 
 3) Run:
 - `npm run dev`
+- Frontend runs on `http://localhost:3000` by default
 
 ## Environment Variables
 

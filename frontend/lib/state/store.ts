@@ -12,7 +12,6 @@ type TodoStore = {
   todos: Todo[];
   isFetching: boolean;
   isMutating: boolean;
-  error: string | null;
   hasHydrated: boolean;
   hydrate: (todos: Todo[]) => void;
   fetchTodos: () => Promise<void>;
@@ -26,7 +25,6 @@ const initialState = {
   todos: [],
   isFetching: false,
   isMutating: false,
-  error: null,
   hasHydrated: false
 };
 
@@ -35,18 +33,14 @@ export const useTodoStore = create<TodoStore>((set) => ({
   ...initialState,
 
   // Hydrate store from SSR/initial data and mark as ready.
-  hydrate: (todos) => set({ todos, hasHydrated: true, error: null }),
+  hydrate: (todos) => set({ todos, hasHydrated: true }),
 
   // Load todos from the API.
   async fetchTodos() {
-    set({ isFetching: true, error: null });
+    set({ isFetching: true });
     try {
       const todos = await fetchTodosRequest();
-      set({ todos, hasHydrated: true, error: null });
-    } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Failed to fetch todos"
-      });
+      set({ todos, hasHydrated: true });
     } finally {
       set({ isFetching: false });
     }
@@ -54,16 +48,12 @@ export const useTodoStore = create<TodoStore>((set) => ({
 
   // Create a new todo and prepend it in the list.
   async addTodo(title) {
-    set({ isMutating: true, error: null });
+    set({ isMutating: true });
     try {
       const newTodo = await createTodoRequest({ title });
       set((state) => ({
         todos: [newTodo, ...state.todos]
       }));
-    } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Failed to add todo"
-      });
     } finally {
       set({ isMutating: false });
     }
@@ -71,16 +61,12 @@ export const useTodoStore = create<TodoStore>((set) => ({
 
   // Toggle completion status for a todo.
   async toggleTodo(id, completed) {
-    set({ isMutating: true, error: null });
+    set({ isMutating: true });
     try {
       const updated = await updateTodoRequest(id, { completed });
       set((state) => ({
         todos: state.todos.map((todo) => (todo.id === id ? updated : todo))
       }));
-    } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Failed to update todo"
-      });
     } finally {
       set({ isMutating: false });
     }
@@ -88,16 +74,12 @@ export const useTodoStore = create<TodoStore>((set) => ({
 
   // Remove a todo from the API and local list.
   async deleteTodo(id) {
-    set({ isMutating: true, error: null });
+    set({ isMutating: true });
     try {
       await deleteTodoRequest(id);
       set((state) => ({
         todos: state.todos.filter((todo) => todo.id !== id)
       }));
-    } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Failed to delete todo"
-      });
     } finally {
       set({ isMutating: false });
     }

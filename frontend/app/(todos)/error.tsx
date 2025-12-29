@@ -3,13 +3,7 @@
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 
-export default function TodoError({
-  error,
-  reset
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function TodoError({ error, reset }: { error: Error; reset: () => void; }) {
   useEffect(() => {
     toast.error(error.message);
   }, [error]);

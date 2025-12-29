@@ -1,20 +1,35 @@
-# Koa + Next.js Todo
+# 1. Koa + Next.js Todo
 
 Monorepo with a Koa + MongoDB backend and a Next.js frontend.
 
 ## Setup
 
-1) Install dependencies:
+### Backend
+
+1) Configure env:
+- Copy `backend/.env.example` to `backend/.env`
+
+2) Configure MongoDB:
+- Ensure MongoDB is running locally
+- Set `MONGO_URL` in `backend/.env`
+
+3) Install deps:
 - `cd backend && npm install`
-- `cd ../frontend && npm install`
 
-2) Configure environment variables (no secrets committed):
-- Backend: copy `backend/.env.example` to `backend/.env`
-- Frontend: copy `frontend/.env.example` to `frontend/.env.local`
+4) Run:
+- `npm run dev`
 
-3) Run the apps:
-- Backend: `cd backend && npm run dev`
-- Frontend: `cd frontend && npm run dev`
+### Frontend
+
+1) Configure env:
+- Copy `frontend/.env.example` to `frontend/.env.local`
+- Set `NEXT_PUBLIC_API_URL` to your backend (e.g. `http://localhost:4000/api`)
+
+2) Install deps:
+- `cd frontend && npm install`
+
+3) Run:
+- `npm run dev`
 
 ## Environment Variables
 

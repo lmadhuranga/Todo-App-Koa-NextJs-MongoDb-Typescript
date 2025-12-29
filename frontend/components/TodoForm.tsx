@@ -1,12 +1,13 @@
 "use client";
 
 import { notify } from "@/lib/toast";
-import { createTodo } from "@/lib/actions";
+import { useTodoStore } from "@/lib/stores/todoStore";
 import { useState } from "react";
 import type React from "react";
 import AddButton from "@/components/AddButton";
 
 export default function TodoForm() {
+  const addTodo = useTodoStore((state) => state.addTodo);
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
 
@@ -23,7 +24,7 @@ export default function TodoForm() {
     setIsLoading(true);
     notify.loading("Adding todo...");
     try {
-      await createTodo(trimmedTitle);
+      await addTodo(trimmedTitle);
       setTitle("");
       notify.success("Todo added");
     } catch {

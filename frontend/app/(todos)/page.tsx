@@ -1,6 +1,5 @@
 import { getTodos } from "@/lib/api";
-import TodoForm from "@/components/TodoForm";
-import TodoList from "@/components/TodoList";
+import TodosPageClient from "@/components/TodosPageClient";
 
 export default async function TodosPage() {
   const todos = await getTodos();
@@ -12,8 +11,7 @@ export default async function TodosPage() {
           📝 ToDo App
         </h1>
 
-        <TodoForm />
-        <TodoList todos={todos} />
+        <TodosPageClient initialTodos={todos} />
       </div>
     </main>
   );

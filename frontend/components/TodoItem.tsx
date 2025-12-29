@@ -1,21 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import toast from "react-hot-toast";
-import { updateTodo, deleteTodo } from "@/lib/actions";
+import { useShallow } from "zustand/shallow";
 import { Todo } from "@/types/todo";
 import { notify } from "@/lib/toast";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import CloseButton from "./CloseButton";
+import { useTodoStore } from "@/lib/stores/todoStore";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
+  const { toggleTodo, deleteTodo, isMutating } = useTodoStore(
+    useShallow((state) => ({
+      toggleTodo: state.toggleTodo,
+      deleteTodo: state.deleteTodo,
+      isMutating: state.isMutating
+    }))
+  );
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleToggle() {
-    toast.loading("Updating...");
+    if (isMutating) return;
+    notify.loading("Updating...");
     try {
-      await updateTodo(todo.id, { completed: !todo.completed });
+      await toggleTodo(todo.id, !todo.completed);
 
       notify.success("Updated");
     } catch {
@@ -24,9 +32,10 @@ export default function TodoItem({ todo }: { todo: Todo }) {
   }
 
   async function handleDelete() {
+    if (isMutating) return;
     setLoading(true);
     setShowConfirm(false);
-    toast.loading("Deleting...");
+    notify.loading("Deleting...");
     try {
       await deleteTodo(todo.id);
       notify.success("Todo deleted");
@@ -46,14 +55,22 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             type="checkbox"
             checked={todo.completed}
             onChange={handleToggle}
-            className="h-4 w-4 text-blue-600"
+            disabled={isMutating}
+            className="h-4 w-4 text-blue-600 disabled:opacity-50"
           />
           <span className={`text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`} >
             {todo.title}
           </span>
         </div>
 
-        <CloseButton onClick={() => setShowConfirm(true)} ariaLabel="Delete todo" />
+        <CloseButton
+          onClick={() => {
+            if (isMutating || loading) return;
+            setShowConfirm(true);
+          }}
+          disabled={isMutating || loading}
+          ariaLabel="Delete todo"
+        />
       </li>
 
       <ConfirmDialog

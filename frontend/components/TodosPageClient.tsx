@@ -12,9 +12,7 @@ export default function TodosPageClient({ initialTodos }: { initialTodos: Todo[]
   const fetchTodos = useTodoStore((state) => state.fetchTodos);
 
   useEffect(() => {
-    if (hasHydrated) {
-      return;
-    }
+    if (hasHydrated) return;
 
     hydrate(initialTodos);
 

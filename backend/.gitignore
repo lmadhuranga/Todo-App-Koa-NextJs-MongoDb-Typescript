@@ -16,7 +16,8 @@ pids/
 
 # Environment variables
 .env
-.env.*
+.env.test
+.env.dev
 
 # OS files
 .DS_Store

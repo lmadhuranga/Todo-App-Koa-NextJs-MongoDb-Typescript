@@ -39,3 +39,7 @@ Backend (`backend/.env`):
 
 Frontend (`frontend/.env.local`):
 - `NEXT_PUBLIC_API_URL` API base URL (e.g. `http://localhost:4000/api`)
+
+
+
+# Unified Inbox (Multi-Channel) — Technical Design

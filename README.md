@@ -2,6 +2,8 @@
 
 Monorepo with a Koa + MongoDB backend and a Next.js frontend.
 
+![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/todoApp.jpg)
+
 ## Setup
 
 ### Backend
@@ -46,8 +48,6 @@ Frontend (`frontend/.env.local`):
 ## Unified Inbox (Multi-Channel) — Technical Design 
 
 The Unified Inbox provides a **single operator interface** to manage conversations coming from multiple communication channels such as **WhatsApp, Telegram, Email, and Web Chat**.
-
-![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/todoApp.jpg)
 
 ## This is the architecture of Unified inbox system.
 

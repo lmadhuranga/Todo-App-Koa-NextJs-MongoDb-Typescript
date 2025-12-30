@@ -4,6 +4,21 @@ Monorepo with a Koa + MongoDB backend and a Next.js frontend.
 
 ![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/todoApp.jpg)
 
+## Tech Stack
+
+Backend:
+- Koa 3
+- TypeScript
+- MongoDB (Mongoose)
+- Zod
+
+Frontend:
+- Next.js 16
+- React 19
+- Tailwind CSS 4
+- Zustand
+- React Hot Toast
+
 ## Setup
 
 ### Backend

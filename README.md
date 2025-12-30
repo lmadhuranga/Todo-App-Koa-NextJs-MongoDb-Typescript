@@ -42,14 +42,14 @@ Frontend (`frontend/.env.local`):
 
 
 
-## Unified Inbox (Multi-Channel) — Technical Design 
 
-### 1. Core Idea
+## Unified Inbox (Multi-Channel) — Technical Design 
 
 The Unified Inbox provides a **single operator interface** to manage conversations coming from multiple communication channels such as **WhatsApp, Telegram, Email, and Web Chat**.
 
-## This is the architecture of Unified inbox system.
+![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/todoApp.jpg)
 
+## This is the architecture of Unified inbox system.
 
 First, each channel connects through a **Channel Adapter**.  
 Incoming messages—regardless of their source—are routed through the **Message Service**, where they are **normalized into a common internal format** and stored as part of a **conversation** in the database.
@@ -73,6 +73,8 @@ It is designed to clearly separate core messaging data from AI-generated insight
 ## AI Processing Architecture
 
 This diagram illustrates the AI processing layer used in the Unified Inbox to enhance operator efficiency through automation, insights, and prioritization.    
+
+![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/ai-system.jpg)
 
 The **Supervisor** acts as the central orchestration component.  
 It receives incoming customer messages and coordinates multiple AI agents to process the message concurrently. 
@@ -105,9 +107,6 @@ Flow:
 The Supervisor–Agent pattern ensures the system remains extensible as new AI features are introduced.
 
 
-![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/ai-system.jpg)
-
-
 ## Unified Inbox ↔ AI Processing Connector (Worker Module)
 
 The Unified Inbox and AI Processing systems are connected through an **asynchronous Worker (Orchestrator)** module.  
@@ -115,7 +114,7 @@ This module acts as a decoupled bridge between message ingestion and AI computat
 
 ![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/full-system.jpg)
 
-## Connection Flow (High-Level)
+### Connection Flow (High-Level)
 
 1. A message is received and normalized by the **Channel Adapters**
 2. The **Message Service** stores the message in the database

@@ -91,35 +91,45 @@ This diagram illustrates the AI processing layer used in the Unified Inbox to en
 
 ![enter image description here](https://raw.githubusercontent.com/lmadhuranga/Todo-App-Koa-NextJs-MongoDb-Typescript/refs/heads/main/ai-system.jpg)
 
-The **Supervisor** acts as the central orchestration component.  
-It receives incoming customer messages and coordinates multiple AI agents to process the message concurrently. 
+This diagram represents a Supervisor–Agent based AI processing architecture where multiple AI agents work in parallel and feed a central LLM to produce intelligent outcomes.
 
-**Agent 1: AI Reply Generation:** Generate context-aware reply suggestions for operators.
+### **Agent 1: AI Reply Generation**
 
-Flow:
-1. Retrieves relevant information from the **RAG Vector Database / Knowledge Base**
-2. Provides contextual data to the LLM
-3. Invokes the **LLM (OpenAI / Gemini)** to generate response suggestions
-4. Passes generated responses through a **Safety Filter**
-5. Outputs safe AI suggestions for operator review
+Generates context-aware reply suggestions for operators.
+**Flow:**
+1.  Retrieves relevant information from the **RAG Vector Database / Knowledge Base**
+2.  Supplies relevant data and contextual grounding to the LLM
+3.  Invokes the **LLM (OpenAI / Gemini)** to generate response suggestions    
+4.  Outputs safe, context-aware reply suggestions for operator review
+----------
 
-**Agent 2: Intent & Sentiment Detection:** Understand the customer’s intent and emotional tone.
+### **Agent 2: Intent & Sentiment Detection**
+Understands the customer’s intent and emotional tone
+**Flow:**
+1.  Processes the incoming message using **NLP-based text classification**  
+2.  Detects intent (e.g., inquiry, complaint, follow-up)
+3.  Identifies sentiment (positive, neutral, negative)
+4.  Sends structured intent and sentiment signals to the LLM to guide response tone and handling
+----------
 
-Flow:
-1. Processes message text using **NLP-based text classification**
-2. Detects intent (e.g., complaint, inquiry, follow-up)
-3. Identifies sentiment (e.g., positive, neutral, negative)
- 
-**Agent 3: Chat Prioritization:** Determine which conversations require immediate attention.
+### **Agent 3: Chat Prioritization**
+Determines which conversations require immediate attention.
+**Flow:**
+1.  Applies a **scoring / ranking model**
+2.  Considers factors such as:
+    -   Identified intent
+    -   Message urgency  
+3.  Produces a priority score that is fed into the LLM for informed decision-making
 
-Flow:
-1. Uses a **scoring / ranking model**
-2. Considers factors such as: 
-   - Identified intent
-   - Message urgency 
-3. Produces a priority score for the conversation 
-  
-The Supervisor–Agent pattern ensures the system remains extensible as new AI features are introduced.
+----------
+
+### **Central LLM (OpenAI / Gemini)**
+The LLM acts as the **fusion layer**, combining:
+-   Retrieved knowledge from RAG
+-   Intent and sentiment insights
+-   Conversation priority signals
+It generates final AI-assisted outputs aligned with context, emotion, and urgency.
+
 
 
 ## Unified Inbox ↔ AI Processing Connector (Worker Module)

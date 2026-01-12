@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Todo } from "@/types/todo";
 import { notify } from "@/lib/toast";
 import ConfirmDialog from "@/components/ConfirmDialog";
@@ -14,7 +14,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function handleToggle() {
+  const handleToggle = useCallback(async () => {
     if (isMutating) return;
     notify.loading("Updating...");
     try {
@@ -24,9 +24,9 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     } catch {
       notify.error("Update failed");
     }
-  }
+  }, [isMutating, todo.completed, todo.id, toggleTodo]);
 
-  async function handleDelete() {
+  const handleDelete = useCallback(async () => {
     if (isMutating) return;
     setLoading(true);
     setShowConfirm(false);
@@ -39,7 +39,22 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     } finally {
       setLoading(false);
     }
-  }
+  }, [deleteTodo, isMutating, todo.id]);
+
+  const titleClassName = useMemo(
+    () => `text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`,
+    [todo.completed],
+  );
+
+  const handleOpenConfirm = useCallback(() => {
+    if (isMutating || loading) return;
+    setShowConfirm(true);
+  }, [isMutating, loading]);
+
+  const handleCloseConfirm = useCallback(() => {
+    setShowConfirm(false);
+    setLoading(false);
+  }, []);
 
   return (
     <>
@@ -53,16 +68,13 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             disabled={isMutating}
             className="h-4 w-4 text-blue-600 disabled:opacity-50"
           />
-          <span className={`text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`} >
+          <span className={titleClassName}>
             {todo.title}
           </span>
         </div>
 
         <CloseButton
-          onClick={() => {
-            if (isMutating || loading) return;
-            setShowConfirm(true);
-          }}
+          onClick={handleOpenConfirm}
           disabled={isMutating || loading}
           ariaLabel="Delete todo"
         />
@@ -72,10 +84,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
         open={showConfirm}
         loading={loading}
         onConfirm={handleDelete}
-        onClose={() => {
-          setShowConfirm(false);
-          setLoading(false);
-        }}
+        onClose={handleCloseConfirm}
       />
     </>
   );

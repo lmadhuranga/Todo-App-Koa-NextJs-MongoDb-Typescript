@@ -9,7 +9,7 @@ type CloseButtonProps = {
 
 const CloseButton: React.FC<CloseButtonProps> = ({
   onClick,
-  className = "text-red-500 hover:text-red-700 transition",
+  className = "inline-flex items-center justify-center h-8 w-8 rounded-full text-rose-600 hover:text-rose-700 hover:bg-rose-50 transition",
   ariaLabel = "Close",
   disabled = false,
 }) => {

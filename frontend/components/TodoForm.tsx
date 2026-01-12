@@ -35,17 +35,19 @@ export default function TodoForm() {
   };
 
   return (
-    <form className="flex gap-2 mb-4" onSubmit={formSubmitHandler}>
+    <form className="flex flex-col sm:flex-row gap-3 mb-5" onSubmit={formSubmitHandler}>
       <input
         name="title"
         placeholder="Add a new task"
-        className="flex-1 border rounded-md px-3 py-2"
+        className="flex-1 rounded-full border border-slate-200 bg-white/90 px-4 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--sky))]/40"
         value={title}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           setTitle(event.target.value)
         }
       />
-      <AddButton isLoading={isLoading} />
+      <div className="self-start sm:self-auto">
+        <AddButton isLoading={isLoading} />
+      </div>
     </form>
   );
 }

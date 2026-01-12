@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+:root {
+  --paper: 248 246 240;
+  --ink: 20 24 32;
+  --accent: 255 123 87;
+  --accent-strong: 236 88 59;
+  --mint: 88 196 154;
+  --sky: 96 140 230;
+}
+
+body {
+  background-color: rgb(var(--paper));
+  color: rgb(var(--ink));
+}
+
 @keyframes pulse {
   0% {
     opacity: 1;
@@ -12,4 +26,48 @@
   }
 }
 
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
 
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .app-bg {
+    background-image:
+      radial-gradient(900px 500px at 10% 10%, rgba(96, 140, 230, 0.15), transparent 70%),
+      radial-gradient(700px 400px at 90% 20%, rgba(255, 123, 87, 0.18), transparent 65%),
+      radial-gradient(800px 500px at 30% 90%, rgba(88, 196, 154, 0.16), transparent 70%),
+      linear-gradient(180deg, #f8f6f0 0%, #f3efe7 100%);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+    backdrop-filter: blur(14px);
+  }
+
+  .animate-floaty {
+    animation: floaty 8s ease-in-out infinite;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 600ms ease both;
+  }
+}

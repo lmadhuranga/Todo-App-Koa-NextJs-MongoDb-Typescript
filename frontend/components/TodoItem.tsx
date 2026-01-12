@@ -59,14 +59,14 @@ export default function TodoItem({ todo }: { todo: Todo }) {
   return (
     <>
       {/* Todo Row */}
-      <li className="flex items-center justify-between border rounded-md px-3 py-2 hover:bg-gray-50">
+      <li className="group flex items-center justify-between rounded-2xl border border-white/70 bg-white/80 px-3 py-2.5 shadow-sm transition hover:border-slate-200 hover:shadow-md">
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
             checked={todo.completed}
             onChange={handleToggle}
             disabled={isMutating}
-            className="h-4 w-4 text-blue-600 disabled:opacity-50"
+            className="h-4 w-4 text-[rgb(var(--sky))] disabled:opacity-50"
           />
           <span className={titleClassName}>
             {todo.title}

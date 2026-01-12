@@ -34,7 +34,7 @@ export default function ConfirmDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
       role="dialog"
       aria-modal="true"
       onMouseDown={(e) => {
@@ -42,9 +42,9 @@ export default function ConfirmDialog({
         if (e.target === e.currentTarget && !loading) onClose();
       }}
     >
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
-        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-500 mt-2">{message}</p>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 border border-white/70">
+        <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
+        <p className="text-sm text-slate-500 mt-2">{message}</p>
 
         <div className="flex justify-end gap-2 mt-6">
           <button
@@ -52,7 +52,7 @@ export default function ConfirmDialog({
             onClick={() => {
               if (!loading) onClose();
             }}
-            className="px-4 py-2 text-sm rounded-md border hover:bg-gray-100"
+            className="px-4 py-2 text-sm rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50"
           >
             {cancelText}
           </button>
@@ -62,7 +62,7 @@ export default function ConfirmDialog({
               if (!loading) onConfirm();
             }}
             disabled={loading}
-            className="px-4 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+            className="px-4 py-2 text-sm rounded-full bg-rose-600 text-white hover:bg-rose-700 disabled:opacity-50"
           >
             {loading ? "Deleting..." : confirmText}
           </button>

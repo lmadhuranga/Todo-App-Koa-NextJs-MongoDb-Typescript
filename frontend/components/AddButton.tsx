@@ -11,7 +11,11 @@ export default function AddButton({ isLoading = false, label = "Add", className 
     <button
       type="submit"
       disabled={isLoading}
-      className={`text-white px-4 py-2 rounded-md ${isLoading ? "bg-blue-200" : "bg-blue-600"} disabled:cursor-not-allowed ${className}`}
+      className={`text-white px-5 py-2 rounded-full text-sm font-semibold shadow-sm transition ${
+        isLoading
+          ? "bg-[rgb(var(--sky))]/40"
+          : "bg-[rgb(var(--accent))] hover:bg-[rgb(var(--accent-strong))]"
+      } disabled:cursor-not-allowed ${className}`}
     >
       {label}
     </button>

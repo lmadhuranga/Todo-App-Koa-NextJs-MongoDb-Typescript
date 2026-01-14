@@ -2,10 +2,7 @@ import { getTodos } from "@/lib/api";
 import TodosPageClient from "@/components/TodosPageClient";
 
 export default async function TodosPage() {
-  const todos = await getTodos();
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length;
-
+  const todos = await getTodos();  
   return (
     <main className="min-h-screen app-bg relative overflow-hidden px-4 py-12 flex items-center justify-center">
       <div className="pointer-events-none absolute -left-16 top-10 h-40 w-40 rounded-full bg-[rgba(96,140,230,0.18)] blur-2xl animate-floaty" />
@@ -24,16 +21,7 @@ export default async function TodosPage() {
             <p className="text-sm text-slate-500 mt-2 max-w-md">
               Capture tasks, track progress, and stay calm with a clean, focused list.
             </p>
-          </div>
-
-          <div className="flex gap-2">
-            <div className="rounded-full border border-white/70 bg-white/70 px-3 py-1 text-xs text-slate-600">
-              {completedCount} done
-            </div>
-            <div className="rounded-full border border-white/70 bg-white/70 px-3 py-1 text-xs text-slate-600">
-              {totalCount} total
-            </div>
-          </div>
+          </div> 
         </div>
 
         <div className="mt-6">

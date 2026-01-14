@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { Todo } from "@/types/todo";
 import { notify } from "@/lib/toast";
 import ConfirmDialog from "@/components/ConfirmDialog";
@@ -14,7 +14,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleToggle = useCallback(async () => {
+  const handleToggle = async () => {
     if (isMutating) return;
     notify.loading("Updating...");
     try {
@@ -24,13 +24,12 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     } catch {
       notify.error("Update failed");
     }
-  }, [isMutating, todo.completed, todo.id, toggleTodo]);
+  }
 
-  const handleDelete = useCallback(async () => {
+  const handleDelete = async () => {
     if (isMutating) return;
     setLoading(true);
-    setShowConfirm(false);
-    notify.loading("Deleting...");
+    setShowConfirm(false); 
     try {
       await deleteTodo(todo.id);
       notify.success("Todo deleted");
@@ -39,22 +38,19 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     } finally {
       setLoading(false);
     }
-  }, [deleteTodo, isMutating, todo.id]);
+  }
 
-  const titleClassName = useMemo(
-    () => `text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`,
-    [todo.completed],
-  );
+  const titleClassName = `text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`;
 
-  const handleOpenConfirm = useCallback(() => {
+  const handleOpenConfirm = () => {
     if (isMutating || loading) return;
     setShowConfirm(true);
-  }, [isMutating, loading]);
+  };
 
-  const handleCloseConfirm = useCallback(() => {
+  const handleCloseConfirm = () => {
     setShowConfirm(false);
     setLoading(false);
-  }, []);
+  };
 
   return (
     <>

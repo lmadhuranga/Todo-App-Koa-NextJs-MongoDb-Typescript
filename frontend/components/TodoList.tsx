@@ -9,17 +9,13 @@ export default function TodoList() {
 
   if (isFetching && todos.length === 0) {
     return (
-      <p className="text-gray-400 text-sm text-center">
-        Loading todos...
-      </p>
+      <p className="text-gray-400 text-sm text-center"> Loading todos... </p>
     );
   }
 
   if (todos.length === 0) {
     return (
-      <p className="text-gray-400 text-sm text-center">
-        No todos yet
-      </p>
+      <p className="text-gray-400 text-sm text-center"> No todos yet </p>
     );
   }
 

@@ -1,13 +1,13 @@
 import React from "react";
 
-type CloseButtonProps = {
+type DeleteButtonProps = {
   onClick?: () => void;
   className?: string;
   ariaLabel?: string;
   disabled?: boolean;
 };
 
-const CloseButton: React.FC<CloseButtonProps> = ({
+const DeleteButton: React.FC<DeleteButtonProps> = ({
   onClick,
   className = "inline-flex items-center justify-center h-8 w-8 rounded-full text-rose-600 hover:text-rose-700 hover:bg-rose-50 transition",
   ariaLabel = "Close",
@@ -26,4 +26,4 @@ const CloseButton: React.FC<CloseButtonProps> = ({
   );
 };
 
-export default CloseButton;
+export default DeleteButton;

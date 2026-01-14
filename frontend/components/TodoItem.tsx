@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Todo } from "@/types/todo";
 import { notify } from "@/lib/toast";
 import ConfirmDialog from "@/components/ConfirmDialog";
-import CloseButton from "./CloseButton";
+import DeleteButton from "./DeleteButton";
 import { useTodoStore } from "@/lib/state/store";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
@@ -69,7 +69,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
           </span>
         </div>
 
-        <CloseButton
+        <DeleteButton
           onClick={handleOpenConfirm}
           disabled={isMutating || loading}
           ariaLabel="Delete todo"

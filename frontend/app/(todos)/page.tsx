@@ -1,7 +1,8 @@
-import { getTodos } from "@/lib/api";
 import TodosPageClient from "@/components/TodosPageClient";
+import { getTodos } from "@/lib/api";
 
 export default async function TodosPage() {
+  const todos = await getTodos();
   return (
     <main className="min-h-screen app-bg relative overflow-hidden px-4 py-12 flex items-center justify-center">
       <div className="pointer-events-none absolute -left-16 top-10 h-40 w-40 rounded-full bg-[rgba(96,140,230,0.18)] blur-2xl animate-floaty" />
@@ -24,7 +25,7 @@ export default async function TodosPage() {
         </div>
 
         <div className="mt-6">
-          <TodosPageClient />
+          <TodosPageClient initialTodos={todos} />
         </div>
       </div>
     </main>

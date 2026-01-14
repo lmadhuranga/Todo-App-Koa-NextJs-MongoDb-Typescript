@@ -11,7 +11,6 @@ import { Todo } from "@/types/todo";
 type TodoStore = {
   todos: Todo[];
   isFetching: boolean;
-  isMutating: boolean;
   hasHydrated: boolean;
   hydrate: (todos: Todo[]) => void;
   fetchTodos: () => Promise<void>;
@@ -24,7 +23,6 @@ type TodoStore = {
 const initialState = {
   todos: [],
   isFetching: false,
-  isMutating: false,
   hasHydrated: false
 };
 
@@ -48,40 +46,25 @@ export const useTodoStore = create<TodoStore>((set) => ({
 
   // Create a new todo and prepend it in the list.
   async addTodo(title) {
-    set({ isMutating: true });
-    try {
-      const newTodo = await createTodoRequest({ title });
-      set((state) => ({
-        todos: [newTodo, ...state.todos]
-      }));
-    } finally {
-      set({ isMutating: false });
-    }
+    const newTodo = await createTodoRequest({ title });
+    set((state) => ({
+      todos: [newTodo, ...state.todos]
+    }));
   },
 
   // Toggle completion status for a todo.
   async toggleTodo(id, completed) {
-    set({ isMutating: true });
-    try {
-      const updated = await updateTodoRequest(id, { completed });
-      set((state) => ({
-        todos: state.todos.map((todo) => (todo.id === id ? updated : todo))
-      }));
-    } finally {
-      set({ isMutating: false });
-    }
+    const updated = await updateTodoRequest(id, { completed });
+    set((state) => ({
+      todos: state.todos.map((todo) => (todo.id === id ? updated : todo))
+    }));
   },
 
   // Remove a todo from the API and local list.
   async deleteTodo(id) {
-    set({ isMutating: true });
-    try {
-      await deleteTodoRequest(id);
-      set((state) => ({
-        todos: state.todos.filter((todo) => todo.id !== id)
-      }));
-    } finally {
-      set({ isMutating: false });
-    }
-  }
+    await deleteTodoRequest(id);
+    set((state) => ({
+      todos: state.todos.filter((todo) => todo.id !== id)
+    }));
+  },
 }));

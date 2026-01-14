@@ -7,15 +7,16 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import DeleteButton from "./DeleteButton";
 import { useTodoStore } from "@/lib/state/store";
 
-export default function TodoItem({ todo }: { todo: Todo }) {
+function TodoItem({ todo }: { todo: Todo }) {
   const toggleTodo = useTodoStore((state) => state.toggleTodo);
   const deleteTodo = useTodoStore((state) => state.deleteTodo);
-  const isMutating = useTodoStore((state) => state.isMutating);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isToggling, setIsToggling] = useState(false);
 
   const handleToggle = async () => {
-    if (isMutating) return;
+    if (isToggling || loading) return;
+    setIsToggling(true);
     notify.loading("Updating...");
     try {
       await toggleTodo(todo.id, !todo.completed);
@@ -23,13 +24,15 @@ export default function TodoItem({ todo }: { todo: Todo }) {
       notify.success("Updated");
     } catch {
       notify.error("Update failed");
+    } finally {
+      setIsToggling(false);
     }
-  }
+  };
 
   const handleDelete = async () => {
-    if (isMutating) return;
+    if (isToggling || loading) return;
     setLoading(true);
-    setShowConfirm(false); 
+    setShowConfirm(false);
     try {
       await deleteTodo(todo.id);
       notify.success("Todo deleted");
@@ -38,12 +41,12 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const titleClassName = `text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`;
+  const titleClassName = (`text-sm ${todo.completed ? "line-through text-gray-400" : "text-gray-800"}`)
 
   const handleOpenConfirm = () => {
-    if (isMutating || loading) return;
+    if (isToggling || loading) return;
     setShowConfirm(true);
   };
 
@@ -61,7 +64,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             type="checkbox"
             checked={todo.completed}
             onChange={handleToggle}
-            disabled={isMutating}
+            disabled={isToggling || loading}
             className="h-4 w-4 text-[rgb(var(--sky))] disabled:opacity-50"
           />
           <span className={titleClassName}>
@@ -71,7 +74,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
 
         <DeleteButton
           onClick={handleOpenConfirm}
-          disabled={isMutating || loading}
+          disabled={isToggling || loading}
           ariaLabel="Delete todo"
         />
       </li>
@@ -85,3 +88,5 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     </>
   );
 }
+
+export default (TodoItem);

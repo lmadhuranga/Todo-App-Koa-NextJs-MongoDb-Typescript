@@ -1,8 +1,9 @@
 import Todo from "../models/todo.model"
 
 // Get all todos 
-const getAllTodos = async (_limit: number = 10) => {
-  return Todo.find().sort({ createdAt: -1 }).limit(_limit);
+const getAllTodos = async (searchQuery: string = "", _limit: number = 10) => {
+  const filter = searchQuery ? { title: searchQuery } : {}
+  return Todo.find(filter).sort({ createdAt: -1 }).limit(_limit);
 }
 
 // Get todo filter by id

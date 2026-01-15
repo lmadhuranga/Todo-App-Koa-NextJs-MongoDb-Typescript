@@ -15,7 +15,9 @@ const formatZodError = (error: unknown) => {
 
 // Get All Todos
 const getTodosHandler = async (ctx: any) => {
-  const todos = await todoService.getAllTodos();
+  const {search} = ctx.query;
+ 
+  const todos = await todoService.getAllTodos(search);
   if (!todos) {
     throw new Error("Not found todos");
   }

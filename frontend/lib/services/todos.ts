@@ -4,8 +4,10 @@ import { request } from "@/lib/httpClient";
 type CreateTodoPayload = { title: string };
 type UpdateTodoPayload = { title?: string; completed?: boolean };
 
-export async function fetchTodos() {
-  return request<Todo[]>("/todos");
+export async function fetchTodos(search: string) {
+  const searchQuery = search ? `?search=${search}` : "";
+  console.log(`searchQuery`,searchQuery);
+  return request<Todo[]>(`/todos${searchQuery}`);
 }
 
 export async function createTodo(payload: CreateTodoPayload) {

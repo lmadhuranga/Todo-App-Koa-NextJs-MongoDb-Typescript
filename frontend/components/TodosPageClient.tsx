@@ -5,6 +5,7 @@ import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import { Todo } from "@/types/todo";
 import { useTodoStore } from "@/lib/state/store";
+import SearchTodo from "./SearchTodo";
 
 export default function TodosPageClient({ initialTodos }: { initialTodos: Todo[] }) {
   const hydrate = useTodoStore((state) => state.hydrate);
@@ -20,6 +21,7 @@ export default function TodosPageClient({ initialTodos }: { initialTodos: Todo[]
   return (
     <>
       <TodoForm />
+      <SearchTodo />
       <TodoList />
     </>
   );

@@ -13,7 +13,7 @@ type TodoStore = {
   isFetching: boolean;
   hasHydrated: boolean;
   hydrate: (todos: Todo[]) => void;
-  fetchTodos: () => Promise<void>;
+  fetchTodos: (searchQuery: string) => Promise<void>;
   addTodo: (title: string) => Promise<void>;
   toggleTodo: (id: string, completed: boolean) => Promise<void>;
   deleteTodo: (id: string) => Promise<void>;
@@ -34,10 +34,10 @@ export const useTodoStore = create<TodoStore>((set) => ({
   hydrate: (todos) => set({ todos, hasHydrated: true }),
 
   // Load todos from the API.
-  async fetchTodos() {
+  async fetchTodos(searchQuery: string) {
     set({ isFetching: true });
     try {
-      const todos = await fetchTodosRequest();
+      const todos = await fetchTodosRequest(searchQuery);
       set({ todos, hasHydrated: true });
     } finally {
       set({ isFetching: false });
